@@ -17,6 +17,8 @@ KickSort	KEYWORD1
 bubbleSort	KEYWORD2
 quickSort	KEYWORD2
 insertionSort	KEYWORD2
+shellSort	KEYWORD2
+combSort	KEYWORD2
 
 
 
