@@ -38,6 +38,14 @@ public:
 	//From: https://forum.arduino.cc/index.php?topic=280486.0
 	static void insertionSort(Type input[], const uint16_t samples);
 	static void insertionSort(Type input[], const uint16_t samples, KickSort_Dir d);
+	
+	//From: https://forum.arduino.cc/index.php?topic=280486.0
+	static void combSort(Type input[], const uint16_t samples);
+	static void combSort(Type input[], const uint16_t samples, KickSort_Dir d);
+	
+	//From: https://forum.arduino.cc/index.php?topic=280486.0
+	static void shellSort(Type input[], const uint16_t samples);
+	static void shellSort(Type input[], const uint16_t samples, KickSort_Dir d);
 
 };
 
@@ -175,6 +183,182 @@ void KickSort<Type>::quickSort(Type input[], const uint16_t samples, KickSort_Di
 		quickSort(input, r - input + 1, d);
 		quickSort(l, input + samples - l, d);
 	}
+}
+
+
+template<typename Type>
+void KickSort<Type>::insertionSort(Type input[], const uint16_t samples)
+{
+	uint16_t t;
+	uint16_t z;
+	Type temp;
+	
+	for (t = 1; t < samples; t++)
+	{
+		z = t;
+		while( (z > 0) && (input[z] < input[z - 1] ))
+		{
+			temp = input[z];
+			input[z] = input[z - 1];
+			input[z - 1] = temp;
+			z--;
+		}
+	}
+	
+}
+
+
+template<typename Type>
+void KickSort<Type>::insertionSort(Type input[], const uint16_t samples, KickSort_Dir d)
+{
+	if(d == KickSort_Dir::ASCENDING) insertionSort(input, samples);
+	else
+	{
+		uint16_t t;
+		uint16_t z;
+		Type temp;
+		
+		for (t = 1; t < samples; t++)
+		{
+			z = t;
+			while( (z > 0) && (input[z] > input[z - 1] ))
+			{
+				temp = input[z];
+				input[z] = input[z - 1];
+				input[z - 1] = temp;
+				z--;
+			}
+		}
+	}
+}
+
+
+template<typename Type>
+void KickSort<Type>::combSort(Type input[], const uint16_t samples)
+{
+	uint16_t i;
+	uint16_t j;
+	uint16_t gap;
+	uint8_t swapped = 1;
+	Type temp;
+	
+	gap = samples;
+	while (gap > 1 || swapped == 1)
+	{
+		gap = gap * 10 / 13;
+		if (gap == 9 || gap == 10) gap = 11;
+		if (gap < 1) gap = 1;
+		swapped = 0;
+		
+		for (i = 0, j = gap; j < samples; i++, j++)
+		{
+			if (input[i] > input[j])
+			{
+				temp = input[i];
+				input[i] = input[j];
+				input[j] = temp;
+				
+				swapped = 1;
+			}
+		}
+	}
+}
+
+
+template<typename Type>
+void KickSort<Type>::combSort(Type input[], const uint16_t samples, KickSort_Dir d)
+{
+	if(d == KickSort_Dir::ASCENDING) combSort(input, samples);
+	else
+	{
+		uint16_t i;
+		uint16_t j;
+		uint16_t gap;
+		uint8_t swapped = 1;
+		Type temp;
+		
+		gap = samples;
+		while (gap > 1 || swapped == 1)
+		{
+			gap = gap * 10 / 13;
+			if (gap == 9 || gap == 10) gap = 11;
+			if (gap < 1) gap = 1;
+			swapped = 0;
+			
+			for (i = 0, j = gap; j < samples; i++, j++)
+			{
+				if (input[i] < input[j])
+				{
+					temp = input[i];
+					input[i] = input[j];
+					input[j] = temp;
+					
+					swapped = 1;
+				}
+			}
+		}
+	}
+}
+
+
+template<typename Type>
+void KickSort<Type>::shellSort(Type input[], const uint16_t samples)
+{
+	uint16_t i;
+	uint16_t d = samples;
+	uint8_t flag = 1;
+	Type temp;
+	
+	
+	while( flag || (d > 1)) // boolean flag (true when not equal to 0)
+	{
+		flag = 0; // reset flag to 0 to check for future swaps
+		d = (d+1) / 2;
+		
+		for (i = 0; i < (samples - d); i++)
+		{
+			if (input[i + d] < input[i])
+			{
+				temp = input[i + d]; // swap positions i+d and i
+				input[i + d] = input[i];
+				input[i] = temp;
+				flag = 1; // tells swap has occurred
+			}
+		}
+	}
+}
+
+
+template<typename Type>
+void KickSort<Type>::shellSort(Type input[], const uint16_t samples, KickSort_Dir d)
+{
+	if(d == KickSort_Dir::ASCENDING) shellSort(input, samples);
+	else
+	{
+		uint16_t i;
+		uint16_t d = samples;
+		uint8_t flag = 1;
+		Type temp;
+		
+		
+		while( flag || (d > 1)) // boolean flag (true when not equal to 0)
+		{
+			flag = 0; // reset flag to 0 to check for future swaps
+			d = (d+1) / 2;
+			
+			for (i = 0; i < (samples - d); i++)
+			{
+				if (input[i + d] > input[i])
+				{
+					temp = input[i + d]; // swap positions i+d and i
+					input[i + d] = input[i];
+					input[i] = temp;
+					flag = 1; // tells swap has occurred
+				}
+			}
+		}
+	}
+	
 }
 
 
