@@ -1,0 +1,30 @@
+#######################################
+# Syntax Coloring Map for KickSort
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+KickSort	KEYWORD1
+
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+bubbleSort	KEYWORD2
+quickSort	KEYWORD2
+insertionSort	KEYWORD2
+
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+KickSort_Dir	LITERAL1
+ASCENDING	LITERAL1
+DESCENDING	LITERAL1
+
